@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MuszakiStore</string>
+    <string name="muszakistoreMain">MuszakiStore</string>
+    <string name="email_cimMain">Email cím</string>
+    <string name="passMain">Jelszó</string>
+    <string name="loginMain">Bejelentkezés</string>
+    <string name="regMain">Regisztráció</string>
+    <string name="termekMain">Termékek</string>
+</resources>

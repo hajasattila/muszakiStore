@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuHome"
+        android:title="Regisztráció" />
+    <item
+        android:id="@+id/menuKijelentkezes"
+        android:title="Kiejelentkezés" />
+</menu>
