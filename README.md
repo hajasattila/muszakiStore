@@ -29,5 +29,12 @@
 https://th.bing.com/th/id/R.75a1f21171a65133e7bda08d8fbe332c?rik=3yOyZZQwy%2f1jWw&pid=ImgRaw&r=0
 ```
 
+## Mintafiók
+* Webstore felhasználó: 
+
+|Email|PW|     
+|----|-----| 
+|asd@asd.com|asdasd|
+
 
 
