@@ -1,5 +1,8 @@
 package com.example.muszaki;
 
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,10 +23,14 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
+import java.text.BreakIterator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +45,8 @@ public class MyAdapter extends FirebaseRecyclerAdapter<Model,MyAdapter.myviewhol
     @Override
     protected void onBindViewHolder(@NonNull MyAdapter.myviewholder holder, @SuppressLint("RecyclerView") int position, @NonNull Model model) {
         holder.nev.setText(model.getNev());
-        holder.ar.setText(model.getAr());
-//        holder.kategoria.setText(model.getKategoria());
+        holder.ar.setText(model.getAr() + " Ft");
+        holder.ar2.setText(model.getKategoria());
         Glide.with(holder.img.getContext()).load(model.getUrl()).into(holder.img);
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +104,55 @@ public class MyAdapter extends FirebaseRecyclerAdapter<Model,MyAdapter.myviewhol
         });
 
 
+
+        holder.rendeles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(holder.img.getContext());
+                builder.setTitle("Rendelés");
+                builder.setMessage("Biztosan megrendeled ezt a terméket?");
+
+                builder.setPositiveButton("Igen", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        Map<String, Object> rendeles = new HashMap<>();
+                        rendeles.put("url", model.getUrl());
+                        rendeles.put("nev", model.getNev());
+                        rendeles.put("kategoria", model.getKategoria());
+                        rendeles.put("ar", model.getAr());
+                        rendeles.put("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        db.collection("Shop").document().set(rendeles, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(holder.img.getContext(), "Rendelés elküldve!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(holder.img.getContext(), "Hiba történt a rendelés elküldésekor.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                    }
+                });
+
+                builder.setNegativeButton("Nem", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+
+
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,19 +193,19 @@ public class MyAdapter extends FirebaseRecyclerAdapter<Model,MyAdapter.myviewhol
     class myviewholder extends RecyclerView.ViewHolder
     {
         CircleImageView img;
-        //ImageView edit,delete;
-        TextView edit,delete;
-        TextView nev, ar, kategoria;
+        TextView edit,delete,rendeles;
+        TextView nev, ar, ar2;
         public myviewholder(@NonNull View itemView)
         {
             super(itemView);
             img=(CircleImageView) itemView.findViewById(R.id.img);
             nev =(TextView)itemView.findViewById(R.id.nev);
             ar =(TextView)itemView.findViewById(R.id.ar);
-           // kategoria =(TextView)itemView.findViewById(R.id.kategoria);
+            ar2 =(TextView)itemView.findViewById(R.id.ar2);
 
             edit  = (TextView) itemView.findViewById(R.id.editicon);
             delete = (TextView) itemView.findViewById(R.id.deleteicon);
+            rendeles = (TextView) itemView.findViewById(R.id.rend);
         }
     }
 }

@@ -90,12 +90,11 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                FirebaseUser user = task.isSuccessful() ? task.getResult().getUser() : null;
                 if (task.isSuccessful()) {
                     Toast.makeText(RegisterUserActivity.this, "Sikeres regisztráció", Toast.LENGTH_LONG).show();
-                    FirebaseUser user = mAuth.getCurrentUser();
+                    user = mAuth.getCurrentUser();
                     finish();
-                    //TODO:
-                    //User elmentése
                 } else {
                     Toast.makeText(RegisterUserActivity.this, "Sikertelen regisztráció", Toast.LENGTH_LONG).show();
                 }

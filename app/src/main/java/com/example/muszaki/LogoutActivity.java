@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LogoutActivity extends AppCompatActivity {
 
-    private Button logout, kezdo;
+    private Button logout, kezdo, order;
     private static final int BACK_PRESS_TIME_INTERVAL = 2000;
     private long backPressTime;
 
@@ -40,6 +40,14 @@ public class LogoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showLogoutConfirmationDialog();
+            }
+        });
+
+        order = (Button) findViewById(R.id.order);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LogoutActivity.this, Order.class));
             }
         });
     }

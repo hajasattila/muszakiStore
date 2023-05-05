@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -149,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
+ */
     private void userLogin() {
 
         String email = editTextEmail.getText().toString().trim();
