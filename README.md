@@ -1,4 +1,4 @@
-# muszakiStore
+# ```OLVASD EL!```
 ## Ez a webáruház a SZTE Mobil alkalmazásfejlesztés gy.-ra készült, mint kötelező program!
 
 ## Funkciók:
